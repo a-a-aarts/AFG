@@ -125,12 +125,16 @@ public class simplify {
 									intermediate.addAll(needToCheck2.values().stream().filter(x -> intersects(p, x, pb, ps)).collect(Collectors.toList()));
 								}
 								
-								intermediate.removeAll(getsublist(needToCheck1, needToCheck1prev));
-								if (needToCheck2prev != null) intermediate.removeAll(getsublist(needToCheck1, needToCheck2prev));
+								intermediate.removeAll(getsublist(needToCheck1, needToCheck1prev)
+										.stream().filter(x -> intersects(p, x, pb, ps)).collect(Collectors.toList()));
+								if (needToCheck2prev != null) intermediate.removeAll(getsublist(needToCheck1, needToCheck2prev)
+										.stream().filter(x -> intersects(p, x, pb, ps)).collect(Collectors.toList()));
 								
 								if (needToCheck2 != null) {
-									intermediate.removeAll(getsublist(needToCheck2, needToCheck1prev));
-									if (needToCheck2prev != null) intermediate.removeAll(getsublist(needToCheck2, needToCheck2prev));
+									intermediate.removeAll(getsublist(needToCheck2, needToCheck1prev)
+											.stream().filter(x -> intersects(p, x, pb, ps)).collect(Collectors.toList()));
+									if (needToCheck2prev != null) intermediate.removeAll(getsublist(needToCheck2, needToCheck2prev)
+											.stream().filter(x -> intersects(p, x, pb, ps)).collect(Collectors.toList()));
 								}
 								intermediate.remove(px);
 								
