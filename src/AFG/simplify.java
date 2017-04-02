@@ -85,8 +85,8 @@ public class simplify {
 							//we only do something if it is the next point in the line
 							if (px.index == p1.index + 1) {
 								//determine bigger and smaller point
-								Point pb = null;
-								Point ps = null;
+								final Point pb;
+								final Point ps;
 								if(angleCompare(angles.get(px), angles.get(p1), px.x, p1.x) == 1) {
 									pb = px;
 									ps = p1;
@@ -96,7 +96,7 @@ public class simplify {
 									ps = px;
 								}
 								Collection<Point> needToCheck;
-								//diference between the angles might be bigger than 2 if it is out domain is plit
+								//diference between the angles might be bigger than 2 if it is, our domain is plit
 								if(Math.abs(angles.get(px) - angles.get(p1)) < 2) {
 									needToCheck = sortedangle.subMap(new Pair(angles.get(ps), ps.x), false, new Pair(angles.get(pb), pb.x), false).values();
 								}
@@ -109,6 +109,15 @@ public class simplify {
 								}
 								
 								//see which points are actualy in the problem set using line intersections
+								List<Point> pp = needToCheck.stream().filter(x -> intersects(p, x, pb, ps)).collect(Collectors.toList());
+								
+								//do condition 2 magic
+								
+								
+								p.linesegments.add(px);
+								p.ProblemPoints.put(px, pp);
+								//advance to next point on line
+								sortedangle.remove(new Pair(angles.get(p1), p1.x));
 								p1 = px;
 							}
 						}
@@ -138,5 +147,18 @@ public class simplify {
 		y = invlength * y;
 		return 2 + (y > 0 ? x + (x > 0 ? 1 : -1) : x);
 	}
+	
+	boolean intersects(Point p0, Point p1, Point p2, Point p3)
+		{
+		    double s1_x, s1_y, s2_x, s2_y;
+		    s1_x = p1.x - p0.x;     s1_y = p1.y - p0.y;
+		    s2_x = p3.x - p2.x;     s2_y = p3.y - p2.y;
+
+		    double s, t;
+		    s = (-s1_y * (p0.x - p2.x) + s1_x * (p0.y - p2.y)) / (-s2_x * s1_y + s1_x * s2_y);
+		    t = ( s2_x * (p0.y - p2.y) - s2_y * (p0.x - p2.x)) / (-s2_x * s1_y + s1_x * s2_y);
+
+		    return s >= 0 && s <= 1 && t >= 0 && t <= 1;
+		}
 	
 }

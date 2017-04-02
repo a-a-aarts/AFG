@@ -12,7 +12,7 @@ public class Point {
 	
 	//the graph
 	public List<Point> linesegments;
-	public Map<List<Point>,List<Point>> ProblemPoints;
+	public Map<Point,List<Point>> ProblemPoints;
 	boolean active;
 	
 	public Point(double x, double y){
