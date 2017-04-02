@@ -19,6 +19,8 @@ public class Point {
 		this.x = x;
 		this.y = y;
 		index = -1;
+		linesegments = new ArrayList<>();
+		ProblemPoints = new HashMap<>();
 	}
 	
 
